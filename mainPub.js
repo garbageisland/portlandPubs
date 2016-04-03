@@ -33,9 +33,17 @@ $(document).ready(function(){
 
 		function filterBars(namedBar){
 		 	var updatedBars = L.geoJson(data,{
-		 			filter: function(feature, layer){
-		 				return feature.properties.Name == namedBar; 
-		 		}
+		 		filter: function(feature, layer){
+		 			return feature.properties.Name == namedBar; 
+		 		},
+
+		 		onEachFeature: function(feature, layer){
+				layer.bindPopup("<b>Pub Name:</b>" + " " + feature.properties.Name);
+				},
+
+				pointToLayer: function(feature, latlng){
+				return L.marker(latlng,{icon: pubIcon});
+				}
 		 	}).addTo(map);
 		}
 
