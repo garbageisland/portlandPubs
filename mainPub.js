@@ -19,19 +19,31 @@ $(document).ready(function(){
 			iconSize: [60, 50]
 		});
 
-		$("input").keyup(function(){
-			var userBar = $(this).val();
-		});
 		
 		var pubs = L.geoJson(data,{
 			pointToLayer: function(feature, latlng){
 				return L.marker(latlng,{icon: pubIcon});
 			},
-			
+
 			onEachFeature: function(feature, layer){
 			layer.bindPopup("<b>Pub Name:</b>" + " " + feature.properties.Name);
-			},
+			}
 	
+		});
+
+		function filterBars(layer, namedBar){
+			console.log('hello');
+			layer({
+				filter: function(feature, layer){
+					return feature.properties.Name == namedBar; 
+				}
+			});
+		}
+
+
+		$("input").keyup(function(){
+			var userBar = $(this).val();
+			var updatedBars = filterBars(pubs, userBar);
 		});
 
 		var pubClusters = L.markerClusterGroup({
