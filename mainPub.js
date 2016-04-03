@@ -31,10 +31,10 @@ $(document).ready(function(){
 	
 		});
 
-		function filterBars(layer, namedBar){
-		 	layer({
-		 		filter: function(feature, layer){
-		 			return feature.properties.Name == namedBar; 
+		function filterBars(namedBar){
+		 	var updatedBars = L.geoJson(data,{
+		 			filter: function(feature, layer){
+		 				return feature.properties.Name == namedBar; 
 		 		}
 		 	}).addTo(map);
 		}
@@ -53,7 +53,7 @@ $(document).ready(function(){
 		$("input").keyup(function(){
 			var userBar = $(this).val();
 			map.removeLayer(pubClusters);
-			filterBars(pubs, userBar);
+			filterBars(userBar);
 		});
 		
 	});
