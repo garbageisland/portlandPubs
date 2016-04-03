@@ -32,19 +32,13 @@ $(document).ready(function(){
 		});
 
 		function filterBars(layer, namedBar){
-			console.log('hello');
-			layer({
-				filter: function(feature, layer){
-					return feature.properties.Name == namedBar; 
-				}
-			});
+		 	layer({
+		 		filter: function(feature, layer){
+		 			return feature.properties.Name == namedBar; 
+		 		}
+		 	}).addTo(map);
 		}
 
-
-		$("input").keyup(function(){
-			var userBar = $(this).val();
-			var updatedBars = filterBars(pubs, userBar);
-		});
 
 		var pubClusters = L.markerClusterGroup({
 			iconCreateFunction: function(cluster){
@@ -55,6 +49,12 @@ $(document).ready(function(){
 
 		pubClusters.addLayer(pubs);
 		map.addLayer(pubClusters);
+
+		$("input").keyup(function(){
+			var userBar = $(this).val();
+			map.removeLayer(pubClusters);
+			filterBars(pubs, userBar);
+		});
 		
 	});
 
