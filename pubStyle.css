@@ -1,3 +1,30 @@
 #map{
 	height: 55em;
 }
+
+.search-active{
+    position:absolute;
+    top:10px;
+    right:5px;
+    width:14px;
+    height:14px;
+}
+
+/*---bootstrap adjustments----*/
+.form-group{
+    position:relative;
+}
+
+
+/*---utilities---------------*/
+.u-hide{
+    display:none;
+    opacity:0;
+    visibility:hidden;
+}
+
+.u-show{
+    display:block;
+    opacity:1;
+    visibility:visible;
+}

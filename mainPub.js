@@ -1,4 +1,6 @@
-
+// gotta make this a global thingy so we can call
+// it wherever we need it
+var searchTimer;
 
 var map = L.map('map',{
 			zoomControl: false
@@ -58,17 +60,55 @@ $(document).ready(function(){
 		pubClusters.addLayer(pubs);
 		map.addLayer(pubClusters);
 
-		$("input").keyup(function(){
-			var userBar = $(this).val();
-			map.removeLayer(pubClusters);
-			filterBars(userBar);
-		});
-		
+        $("#searchBar").on('input change', function(){
+            // at this stage, we set the search value just in case
+            var userBar = $(this).val();
+
+            // upon any changes to the input we want to make sure
+            // we start with a fresh countdown, so we clear the 
+            // timeout variable before starting a new one
+            window.clearTimeout(searchTimer);
+
+            // show the spinny loader so we knows it's waiting for us
+            // TODO: make this present when actually fetching results...
+            showHide('i.search-active', 'show');
+
+            // set the timer variable to perform the search function
+            // with available input after waiting 500ms
+            searchTimer = window.setTimeout(function(){
+                performSearch(userBar);
+            }, 500);    
+        });
+
+        function performSearch(userBar){
+            // we start the search function by clearing the timeout
+            // because we don't need it anymore
+            window.clearTimeout(searchTimer);
+            showHide('i.search-active', 'hide');
+
+            // the actual search functioning
+            map.removeLayer(pubClusters);
+            filterBars(userBar);
+        }
+
+        function showHide(elem, state){
+            // this sets up a function for reuse, i personally
+            // find that i do this show/hide stuff a lot
+            var prefix = 'u-';
+            if(state == 'undefined'){
+                // simple toggle doesn't always work out, but
+                // it's easy
+                $(elem).toggleClass('u-show u-hide');
+            } else {
+                // specifies when to show or hide, this was needed
+                // because the state would get toggled for each key
+                // pressed in the input otherwise, probably a simpler
+                // way to do all of that
+                var oldState = (state == 'show') ? prefix+'hide' : prefix+'show';
+                $(elem).removeClass(oldState).addClass(prefix+state);
+            }
+        }
+
 	});
 
 });
-
-
-
-
-
