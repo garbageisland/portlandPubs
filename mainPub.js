@@ -63,7 +63,14 @@ $(document).ready(function(){
         $("#searchBar").on('input change', function(){
             // at this stage, we set the search value just in case
             var userBar = $(this).val();
+            var value = $.trim(userBar);
 
+            if(userBar.length > 0){
+                map.removeLayer(pubClusters);
+            }
+            else{
+                map.addLayer(pubClusters);
+            }
             // upon any changes to the input we want to make sure
             // we start with a fresh countdown, so we clear the 
             // timeout variable before starting a new one
@@ -87,7 +94,7 @@ $(document).ready(function(){
             showHide('i.search-active', 'hide');
 
             // the actual search functioning
-            map.removeLayer(pubClusters);
+            //map.removeLayer(pubClusters);
             filterBars(userBar);
         }
 
