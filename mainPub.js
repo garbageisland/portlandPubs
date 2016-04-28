@@ -74,9 +74,9 @@ var action = function(){
         window.clearTimeout(searchTimer);
         interface.showhide('i.search-active', 'hide');
         
-        var updatedBars = L.geoJson(data,{
+        var updatedBars = L.geoJson(allPubs,{
             filter: function(feature, layer){
-                return feature.properties.Name == namedBar; 
+                return feature.properties.Name == userBar; 
             },
 
             onEachFeature: function(feature, layer){
